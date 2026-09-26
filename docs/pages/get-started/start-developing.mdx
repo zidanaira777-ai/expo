@@ -1,114 +1,115 @@
----
-title: Start developing
-description: Make your first change to an Expo project and see it live on your device.
-hideTOC: true
----
+import random
+import time
 
-import { ProjectStructure } from '~/scenes/get-started/start-developing/ProjectStructure';
-import { TemplateFeatures } from '~/scenes/get-started/start-developing/TemplateFeatures';
-import { Collapsible } from '~/ui/components/Collapsible';
-import { ContentSpotlight } from '~/ui/components/ContentSpotlight';
-import { Terminal, DiffBlock } from '~/ui/components/Snippet';
-import { Step } from '~/ui/components/Step';
+class GameBola:
+    def __init__(self):
+        self.skor_kita = 0
+        self.skor_lawan = 0
+        self.menit = 0
+        self.posisi_bola = "Tengah Lapangan"
+        self.game_over = False
 
-<Step label="1">
-## Start a development server
-To start the development server, run the following command:
+    def cetak_papan_skor(self):
+        print("\n" + "="*45)
+        print(f" 🏆 FINAL PIALA ASIA | ⏱ Menit: {self.menit}'")
+        print(f" 🇮🇩 INDONESIA [{self.skor_kita}] VS [ {self.skor_lawan} ] JEPANG 🇯🇵")
+        print(f" ⚽ Posisi Bola: {self.posisi_bola}")
+        print("="*45)
 
-<Terminal
-  cmd={{
-    npm: ['$ npx expo start'],
-    yarn: ['$ yarn expo start'],
-    pnpm: ['$ pnpm expo start'],
-    bun: ['$ bun expo start'],
-  }}
-/>
+    def serangan_lawan(self):
+        print("\n⚠️ Jepang mulai menyusun serangan balik cepat!")
+        time.sleep(1.5)
+        pilihan_bertahan = input("Lawan menusuk! Pilih aksi bertahan:\n1. Tekel Bersih (Slide)\n2. Bayangi saja (Jockey)\nPilihanmu (1/2): ").strip()
+        
+        sukses = random.choice([True, False])
+        if sukses:
+            print("\n🔥 Mantap! Kamu berhasil merebut gila bola dan memotong operan mereka!")
+            self.posisi_bola = "Tengah Lapangan"
+        else:
+            print("\n❌ Gawat! Pemain lawan berhasil melewati pertahanan kita...")
+            time.sleep(1)
+            if random.choice([True, False]):
+                print("🥅 GOOOL untuk Jepang! Tendangan keras mereka tidak terbendung.")
+                self.skor_lawan += 1
+            else:
+                print("🧤 Penyelamatan gemilang dari kiper kita! Bola aman.")
+            self.posisi_bola = "Tengah Lapangan"
 
-</Step>
+    def mainkan(self):
+        print("==================================================")
+        print("    WELCOME TO INDONESIA FOOTBALL CHAMPIONSHIP    ")
+        print("==================================================")
+        print("Bawa Timnas Garuda mencetak gol kemenangan!")
+        time.sleep(1)
 
-<Step label="2">
-## Open the app on your device
+        while self.menit < 90 and not self.game_over:
+            self.cetak_papan_skor()
+            
+            if self.posisi_bola == "Tengah Lapangan":
+                print("Apa tindakanmu di tengah lapangan?")
+                print("1. Oper pendek ke gelandang (Gaya Tiki-Taka)")
+                print("2. Dribble solo melewati bek lawan")
+                pilihan = input("Masukkan nomor (1/2): ").strip()
+                
+                if pilihan == "1":
+                    print("\nOperan akurat! Bola sekarang mendekati kotak penalti lawan.")
+                    self.posisi_bola = "Kotak Penalti Lawan"
+                elif pilihan == "2":
+                    if random.choice([True, False]):
+                        print("\nSkill berkelas! Kamu berhasil melewati satu bek lawan dengan gaya!")
+                        self.posisi_bola = "Kotak Penalti Lawan"
+                    else:
+                        print("\nBola berhasil direbut oleh gempuran pertahanan musuh.")
+                        self.serangan_lawan()
+                else:
+                    print("\nKehilangan fokus! Bola direbut musuh.")
+                    self.serangan_lawan()
 
-After running the command above, you will see a QR code in your terminal. Scan this QR code to open the app on your device.
+            elif self.posisi_bola == "Kotak Penalti Lawan":
+                print("Kamu sudah berada di depan gawang! Peluang emas!")
+                print("1. Tendang langsung ke pojok gawang (Shooting)")
+                print("2. Umpan silang ke striker lain (Crossing)")
+                pilihan = input("Masukkan nomor (1/2): ").strip()
+                
+                if pilihan == "1":
+                    print("\nKamu mengambil ancang-ancang... TENDANGG!!")
+                    time.sleep(1.5)
+                    if random.choice([True, True, False]): # Peluang gol lebih besar
+                        print("🎉 GOOOOLLLLLL!! Tendangan melengkungmu merobek jala gawang musuh!")
+                        self.skor_kita += 1
+                    else:
+                        print("💥 Sayang sekali! Tendanganmu membentur tiang gawang.")
+                    self.posisi_bola = "Tengah Lapangan"
+                elif pilihan == "2":
+                    print("\nKamu melepaskan umpan lambung manis...")
+                    time.sleep(1)
+                    if random.choice([True, False]):
+                        print("🎉 GOOOOLLLLLL!! Sundalan rekan setimmu menjebol gawang!")
+                        self.skor_kita += 1
+                    else:
+                        print("Kiper musuh berhasil memotong umpan lambungmu.")
+                    self.posisi_bola = "Tengah Lapangan"
+                else:
+                    print("\nTerdiam terlalu lama, bek musuh langsung menyapu bola.")
+                    self.posisi_bola = "Tengah Lapangan"
+            
+            self.menit += random.randint(15, 25)
+            time.sleep(1.5)
 
-If you're using an Android Emulator or iOS Simulator, you can press <kbd>A</kbd> or <kbd>I</kbd> respectively to open the app.
+        # Akhir Pertandingan
+        print("\n" + "=*="*15)
+        print("          PRIIIIITTT! PERTANDINGAN SELESAI!          ")
+        print(f"            SKOR AKHIR: INDONESIA {self.skor_kita} - {self.skor_lawan} JEPANG")
+        print("=*="*15)
+        
+        if self.skor_kita > self.skor_lawan:
+            print("🏆 LUAR BIASA! Kamu membawa INDONESIA JUARA ASIA! Angkat pialanya! 🇮🇩🥇")
+        elif self.skor_kita == self.skor_lawan:
+            print("🤝 Skor Imbang! Pertandingan berlanjut ke adu penalti di game berikutnya.")
+        else:
+            print("😢 Kamu kalah. Ayo latihan lagi dan balas dendam di turnamen berikutnya!")
 
-> **info** **Using Expo Go on a physical iOS device?** Expo Go opens your project only when Expo CLI and Expo Go are signed in to the same Expo account. Run `npx expo login` on your computer, then sign in to Expo Go with the same account. See [Set up your environment](/get-started/set-up-your-environment/?platform=ios&device=physical&mode=expo-go).
+if __name__ == "__main__":
+    game = GameBola()
+    game.mainkan()
 
-<Collapsible summary="Having problems?">
-
-Make sure you are on the same Wi-Fi network on your computer and your device.
-
-If you see an error about accounts on a physical iOS device, the message tells you what to fix. To sign in to Expo CLI, run `npx expo login` on your computer. To sign in to Expo Go, tap the account icon in the top-right corner. Use the same account for both, then press **Try Again**. See [Expo Go sign-in required](/troubleshooting/expo-go-sign-in-required/) for every message.
-
-If it still doesn't work, it may be due to the router configuration — this is common for public networks. You can work around this by choosing the **Tunnel** connection type when starting the development server, then scanning the QR code again.
-
-<Terminal
-  cmd={{
-    npm: ['$ npx expo start --tunnel'],
-    yarn: ['$ yarn expo start --tunnel'],
-    pnpm: ['$ pnpm expo start --tunnel'],
-    bun: ['$ bun expo start --tunnel'],
-  }}
-/>
-
-> Using the **Tunnel** connection type will make the app reloads considerably slower than on **LAN** or **Local**, so it's best to avoid tunnel when possible. You may want to install and use an emulator or simulator to speed up development if **Tunnel** is required to access your machine from another device on your network.
-
-</Collapsible>
-
-</Step>
-
-<Step label="3">
-
-## Make your first change
-
-Open the **src/app/index.tsx** file in your code editor and make a change.
-
-<DiffBlock
-  raw={`diff --git a/src/app/index.tsx b/src/app/index.tsx
-index 45cfa0e..4d1b384 100644
---- a/src/app/index.tsx
-+++ b/src/app/index.tsx
-@@ -17,7 +17,7 @@ export default function HomeScreen() {
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
--           Welcome to&nbsp;Expo
-+           Hello World!
-          </ThemedText>
-        </ThemedView>
-  `}
-/>
-
-<Collapsible summary="Changes not showing up on your device?">
-
-Expo Go is configured by default to automatically reload the app whenever a file is changed, but let's make sure to go over the steps to enable it in case somehow things aren't working.
-
-- Make sure you have the [development mode enabled in Expo CLI](/workflow/development-mode#development-mode).
-- Close the Expo app and reopen it.
-- Once the app is open again, shake your device to reveal the developer menu. Press <kbd>Cmd ⌘</kbd> + <kbd>D</kbd>.
-- If you see **Fast Refresh** enabled, toggle it. If you see **Disable Fast Refresh**, dismiss the developer menu. Now try making another change.
-
-  <ContentSpotlight
-    alt="Developer menu in Expo Go app."
-    src="/static/images/get-started/developer-menu.webp"
-    className="max-w-[540px]"
-  />
-
-</Collapsible>
-
-</Step>
-
----
-
-## File structure
-
-Below, you can get familiar with the default project's file structure:
-
-<ProjectStructure />
-
-## Features
-
-The default project template has the following features:
-
-<TemplateFeatures />
